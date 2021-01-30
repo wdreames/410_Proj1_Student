@@ -86,12 +86,40 @@ int loadData(const char* filename, bool ignoreFirstRow) {
 	return COULD_NOT_OPEN_FILE;
 }
 
+bool sortByCPUTime(process_stats i, process_stats j){
+	return i.cpu_time < j.cpu_time;
+}
+
+bool sortByPNum(process_stats i, process_stats j){
+	return i.process_number < j.process_number;
+}
+
+bool sortByStartTime(process_stats i, process_stats j){
+	return i.start_time < j.start_time;
+}
+
+bool sortByIOTime(process_stats i, process_stats j){
+	return i.io_time < j.io_time;
+}
 
 //will sort according to user preference
 //sorts the vector, returns nothing (thats what void means)
 //sorts low to high
 void sortData(SORT_ORDER mySortOrder) {
-
+	switch(mySortOrder){
+	case CPU_TIME:
+		std::sort(stats.begin(), stats.end(), sortByCPUTime);
+		break;
+	case PROCESS_NUMBER:
+		std::sort(stats.begin(), stats.end(), sortByPNum);
+		break;
+	case START_TIME:
+		std::sort(stats.begin(), stats.end(), sortByStartTime);
+		break;
+	case IO_TIME:
+		std::sort(stats.begin(), stats.end(), sortByIOTime);
+		break;
+	}
 }
 
 //return the first struct in the vector
